@@ -1,0 +1,51 @@
+{
+  "mcpServers": {
+    "vuild": {
+      "command": "node",
+      "args": ["C:\\Users\\김성실\\AppData\\Roaming\\npm\\node_modules\\vuild-cli\\src\\index.js"],
+      "env": {
+        "VUILD_API_TOKEN": "vuild_d0c90be4e761c54438d0557bb478829b672960a34c512375",
+        "VUILD_BOARD_ID": "13"
+      }
+    }
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/pre-dangerous-command.sh"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/security-auto-trigger.sh"
+          },
+          {
+            "type": "command",
+            "command": ".claude/hooks/post-rubocop-autofix.sh"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/stop-debug-check.sh"
+          }
+        ]
+      }
+    ]
+  }
+}

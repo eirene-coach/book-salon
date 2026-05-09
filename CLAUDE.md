@@ -1,0 +1,225 @@
+# 환경 모드: 기본 (Basic) — SQLite + Solid
+
+## ⚠️ 절대 룰 — 비개발자 사용자
+
+**기술 질문 0회.** 다음 항목은 사용자에게 절대 묻지 말 것:
+- Ruby/Rails 버전, gem 선택, 파일/디렉토리 구조
+- DB 컬럼 type/index/default값, 환경 설정값
+- 에러 우회 방법, PATH 처리, 권한 문제
+- 코드 패턴 (Service Object, Concern 등)
+
+→ 이 모든 것은 **자동 결정 후 한 줄 보고**로 처리.
+   예: "Ruby 3.3 사용, SQLite로 진행합니다." (X) "Ruby 3.3 vs 3.2 어느 쪽?"
+
+## 사용자에게 물을 수 있는 것 (비즈니스/제품 결정만)
+
+| 카테고리 | 예시 |
+|---------|------|
+| 기능 추가/우선순위 | "회원 등급 기능 추가할까요?" |
+| 데이터 — 어떤 정보 | "사용자 전화번호도 받을까요?" |
+| UX 흐름 | "이메일 로그인만, SNS도?" |
+| 가격/약관 | "월 9,900원 vs 14,900원" |
+| 디자인/카피 톤 | "전문적 vs 친근함" |
+| 새 모델/테이블 | "Posts 모델 만들까요?" |
+| 보안 정책 변경 | "관리자 권한 분리할까요?" |
+| 30분 이상 막힘 | "이 접근 막힘. 다른 방향 vs 포기?" |
+
+## 묻는 형식 — 항상 추천 명확히
+
+❌ "A vs B 어느 쪽?"
+✅ "**[추천] A로 진행합니다 — 이유: [...].** 다른 선택: B (대신 [단점])."
+   "그냥 '진행'이라 하시면 A로 갑니다."
+
+## 행동 원칙
+
+Claude가 이 프로젝트에서 코드를 쓸 때 따라야 할 기본 행동 원칙은 `.claude/skills/design-principles/SKILL.md`에 있다.
+
+핵심 4줄:
+- **생각 먼저**: 모호하면 코드 쓰기 전에 되물어라. 해석이 여러 개면 나열하라.
+- **단순함 우선**: 요청 범위 안에서 Rails 컨벤션 수준까지만. 추측성 추상화 금지.
+- **외과적 변경**: 요청과 무관한 인접 코드를 건드리지 마라. 바뀐 모든 라인이 요청에 직접 연결되어야 한다.
+- **목표 주도 (선택)**: 사용자가 "TDD로" 또는 "테스트 먼저" 명시했을 때만 적용. 그렇지 않으면 구현 우선.
+
+## 세션 시작 시
+
+- `memory/session-state.md`가 있으면 먼저 읽어서 이전 세션의 기술적 컨텍스트를 파악
+- 파일 내용은 참고용이며, 실제 상태(git status, 테스트 실행 등)와 교차 검증할 것
+- 파일이 없으면 무시하고 진행
+
+## 에스컬레이션 규칙
+
+에이전트가 자율 판단 범위를 벗어나는 상황을 만나면:
+1. 작업을 즉시 중단
+2. 팀리드에게 SendMessage로 보고 (상황 설명 + 선택지 제시)
+3. 팀리드(또는 사용자)의 판단을 대기
+
+에스컬레이션 필수 상황:
+- DB 스키마 변경 (마이그레이션 생성/수정)
+- 보안 관련 설정 변경
+- 외부 의존성(gem, API) 추가
+- 기존 테스트 삭제/대규모 수정
+- 배포 설정 변경
+
+## 교훈 기록 규칙
+
+중요한 버그를 해결하거나 예상과 다른 동작을 발견하면 기록:
+- 반복 가능한 버그 패턴 → `memory/known-patterns.md` (증상 → 원인 → 해결, 3줄 이내)
+- 기능 변경/아키텍처 결정 → `docs/decisions/YYYY-MM-DD-제목.md`
+
+기록 시점: 30분 이상 디버깅, 동일 에러 2회 반복, 환경별 차이 문제, 우회법 적용 시.
+
+## 에이전트/커맨드 파일 규칙
+
+- `.claude/agents/` 파일을 수정하면 `.claude/commands/`에서 해당 에이전트를 참조하는 커맨드 파일도 반드시 함께 업데이트한다 (에이전트 이름, 역할, 파일명 등이 커맨드에 하드코딩되어 있음)
+- 에이전트 추가/삭제/역할 변경 시 관련 커맨드의 에이전트 테이블과 워크플로우 설명도 수정한다
+
+## AI/외부 API 호출 규칙
+
+AI API, 외부 API 등 응답이 느릴 수 있는 호출은 절대 컨트롤러에서 동기로 실행하지 않는다.
+
+패턴:
+1. 컨트롤러: `MyJob.perform_later(id)` → 즉시 로딩 UI 응답
+2. 백그라운드 잡: API 호출 → 완료 시 `Turbo::StreamsChannel.broadcast_update_to`로 결과 전송
+3. 뷰: `turbo_stream_from` 구독 → 결과 자동 표시
+
+```ruby
+# 컨트롤러 — 즉시 응답
+def create
+  MyJob.perform_later(@project.id)
+  respond_to do |format|
+    format.turbo_stream {
+      render turbo_stream: turbo_stream.update("result_area",
+        partial: "shared/loading", locals: { message: "처리 중..." })
+    }
+    format.html { redirect_to ... }
+  end
+end
+
+# 잡 — 백그라운드 실행
+class MyJob < ApplicationJob
+  queue_as :default
+
+  def perform(project_id)
+    result = ExternalApi.call(...)
+    Turbo::StreamsChannel.broadcast_update_to(
+      "project_#{project_id}",
+      target: "result_area",
+      partial: "my/result",
+      locals: { data: result }
+    )
+  rescue ActiveRecord::RecordNotFound
+    raise
+  rescue => e
+    Turbo::StreamsChannel.broadcast_update_to(
+      "project_#{project_id}",
+      target: "result_area",
+      partial: "shared/error",
+      locals: { message: "처리 실패. 다시 시도해주세요." }
+    )
+  end
+end
+```
+
+Solid Queue 설정 (config/queue.yml):
+- I/O 대기 잡(AI, 외부 API)은 전용 큐(`ai_processing`)에 분리
+- I/O 잡은 CPU를 안 쓰므로 스레드를 넉넉하게 (5~10)
+- CPU 잡은 스레드를 적게 (2~3)
+- 프로세스 수는 환경변수로 제어
+
+## 개발 순서 원칙
+
+- 카피 먼저, 디자인 다음, 코드는 마지막
+- UI/랜딩 구현 시 "만들어줘"가 아니라, 확정된 카피 + 스타일 가이드를 입력으로 제공
+- "쉽게", "빠르게" 같은 뻔한 표현 금지 → 반드시 숫자/기간/수량으로 대체
+- 디자인 시스템(컬러, 타이포, 간격) 없이 페이지 구현 금지
+- 확정된 카피만 사용 — 새 카피를 즉흥적으로 생성하지 않음
+
+---
+
+# 북살롱
+
+## 프로젝트 핵심 의도
+
+경력단절 엄마가 아이 어린이집 시간(2~3시간) 안에 책 한 챕터로 자기 방향을 발견하도록 돕는 4주 비대면 북코칭 프로그램. "자극에서 끝나지 않고 나의 방향이 되는 경험"을 코치와의 비동기 쌍방향 구조로 제공한다.
+
+## 기술 스택
+
+| 기술 | 선택 이유 |
+|---|---|
+| Rails 8.1 + SQLite | 1인 코치 운영 규모, PaaS 단순 배포, 복잡한 인프라 불필요 |
+| Solid Queue/Cache | 별도 Redis 없이 리마인드 메일·PDF 생성 백그라운드 처리 |
+| Hotwire (Turbo + Stimulus) | 응답 제출 시 페이지 이동 없는 즉시 확인 UX (핵심 감각) |
+| Tailwind CSS | 빠른 UI 구성, 디자인 시스템 변수 관리 |
+| Devise + OmniAuth | 이메일·구글·카카오 로그인 |
+| 토스페이먼츠 | 국내 결제 표준, 자동 기수 등록 연동 |
+
+## 도메인 용어 사전
+
+| 한국어 | 모델/변수명 | 설명 |
+|---|---|---|
+| 기수 | `Cohort` | 특정 시작일의 프로그램 운영 단위 |
+| 프로그램 | `Program` | 북코칭 과정 정의 (제목, 가격, 기간) |
+| 수강 등록 | `Enrollment` | 사용자-기수 연결, 결제 상태 포함 |
+| 일별 콘텐츠 | `DailyContent` | day_number별 영상 URL + 코칭 질문 |
+| 응답 | `Response` | 참여자 텍스트 + 코치 피드백 텍스트 동일 레코드 |
+| 스트릭 | streak | 연속 응답일 수 (responses 집계) |
+| 코치 | admin role | `users.role = 'admin'` |
+| 참여자 | member role | `users.role = 'member'` |
+
+## DB 스키마 핵심 관계
+
+```
+Program → Cohort (1:N, 기수별 운영)
+Cohort → DailyContent (1:N, day_number 1~28)
+Cohort → Enrollment (1:N, 참여자 등록)
+Enrollment → Response (1:N, 매일 응답)
+Response ←→ DailyContent (N:1, 어떤 날의 질문인지)
+```
+
+`Response.feedback_text` + `feedback_at`이 코치 피드백 컬럼. 별도 Feedback 모델 없음.  
+`Enrollment.payment_status`로 결제 완료 여부 체크 후 콘텐츠 접근 허용.
+
+## 기능별 구현 순서
+
+1. **인증** — Devise + OmniAuth (구글/카카오), role 컬럼으로 코치/참여자 분기
+2. **코치 어드민** — Cohort·DailyContent CRUD, 참여자 응답 조회, 피드백 작성
+3. **오늘의 미션** — `/missions/:id` Turbo Frame 응답 폼, 제출 후 "연결됐어요 ✓" 인라인 표시
+4. **피드백 알림** — Action Mailer, 피드백 등록 시 이메일 발송
+5. **결제** — 토스페이먼츠 SDK → 성공 콜백에서 Enrollment 생성 + payment_status 갱신
+6. **리마인드·PDF** — Solid Queue로 미참여자 저녁 메일, 수료 PDF 백그라운드 생성
+
+## 프로젝트-특화 제약 조건
+
+- **응답은 코치만 열람 가능** — `Response`는 enrollment를 통해 본인 + admin만 접근
+- **DailyContent는 day_number 기준** — 실제 날짜가 아닌 `cohort.start_date + day_number`로 오늘의 콘텐츠 결정
+- **결제 완료 전 콘텐츠 접근 차단** — `enrollment.payment_status == 'paid'` 확인 후 미션 페이지 허용
+- **영상은 임베드만** — 직접 영상 파일 업로드 없음, YouTube/Vimeo URL 저장 후 iframe 렌더링
+
+## 디자인 제약
+
+- **선택된 디자인**: Fresh Blossom Plum (bold 무드, large radius, prominent shadow)
+- **라이트/다크 모드 모두 지원**
+- **컬러**: primary `#C2527A`, accent `#8E3A6E`, secondary `#F4A261`, bg(light) `#FDF8FC`
+- **타이포**: 제목 `Noto Serif KR, Georgia, serif` / 본문 `Pretendard, Noto Sans KR, sans-serif`
+- **카드 UI**: 응답·피드백은 부드러운 prominent shadow 카드로 일기장 질감 표현
+- **여백**: 넉넉한 미니멀 레이아웃, 한 줄 응답도 충분히 공간감 있게 표시
+
+## Do
+
+- `Response` 생성 시 항상 `enrollment`를 통해 소유권 검증 후 저장
+- 오늘의 DailyContent는 `cohort.start_date + day_number`로 계산
+- Turbo Frame으로 응답 제출 → 성공 메시지 인라인 교체 (페이지 이동 없음)
+
+## Do Not
+
+- **응답 데이터를 다른 참여자에게 노출하지 말 것** — 공개 설정 토글이 있어도 MVP에서는 비공개 전용
+- **코치 피드백을 AI로 자동 발송하지 말 것** — Phase 2 이후 도입, 현재는 코치 직접 작성만
+- **DailyContent를 실제 날짜 컬럼으로 저장하지 말 것** — `day_number`로 관리, 기수 시작일 기준 계산
+- **결제 웹훅 검증 없이 Enrollment를 생성하지 말 것** — 토스페이먼츠 서명 검증 후 처리
+## Dev Board (MCP: vuild)
+- Board ID: 13
+- Board URL: https://vuild.kr/dev/boards/13
+- API Token: vuild_d0c90be4e761c54438d0557bb478829b672960a34c512375
+- 작업 시작 전 `board_list_tickets`로 백로그를 확인하세요
+- 작업 진행 시 `board_add_activity`로 진행 상황을 기록하세요
+- 작업 완료 시 `board_update_ticket`로 상태를 변경하세요
