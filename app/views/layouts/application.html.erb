@@ -1,28 +1,72 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
   <head>
-    <title><%= content_for(:title) || "Book Salon Build Kit" %></title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="Book Salon Build Kit">
-    <meta name="mobile-web-app-capable" content="yes">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>북살롱 — 책 한 챕터로 내 방향을 찾는 4주 코칭</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= yield :head %>
+    <!-- 폰트 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
-
-    <link rel="icon" href="/icon.png" type="image/png">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/icon.png">
-
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    <%= yield %>
+  <body class="bg-[#FDF8FC] text-[#1F0D18] font-sans antialiased min-h-screen">
+    <!-- 네비게이션 -->
+    <nav class="bg-white/80 backdrop-blur-sm border-b border-pink-100 sticky top-0 z-50">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
+        <a href="/" class="font-serif font-bold text-xl text-[#C2527A] tracking-tight">북살롱</a>
+        <div class="flex items-center gap-3 text-sm">
+          <% if user_signed_in? %>
+            <span class="text-[#7A4868] hidden sm:inline"><%= current_user.name %>님</span>
+            <% if current_user.admin? %>
+              <%= link_to '관리', admin_root_path, class: 'text-[#7A4868] hover:text-[#C2527A] transition-colors' %>
+            <% end %>
+            <%= link_to '여정 일지', my_journey_path, class: 'text-[#7A4868] hover:text-[#C2527A] transition-colors' %>
+            <%= button_to '로그아웃', destroy_user_session_path, method: :delete,
+                class: 'text-[#7A4868] hover:text-[#C2527A] transition-colors bg-transparent border-0 cursor-pointer text-sm' %>
+          <% else %>
+            <%= link_to '로그인', new_user_session_path,
+                class: 'px-4 py-2 rounded-xl bg-[#C2527A] text-white text-sm font-medium hover:bg-[#8E3A6E] transition-colors' %>
+          <% end %>
+        </div>
+      </div>
+    </nav>
+
+    <!-- 플래시 메시지 -->
+    <% if notice %>
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 pt-4">
+        <div class="bg-green-50 border border-green-200 text-green-800 rounded-xl px-4 py-3 text-sm">
+          <%= notice %>
+        </div>
+      </div>
+    <% end %>
+    <% if alert %>
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 pt-4">
+        <div class="bg-red-50 border border-red-200 text-red-800 rounded-xl px-4 py-3 text-sm">
+          <%= alert %>
+        </div>
+      </div>
+    <% end %>
+
+    <!-- 메인 콘텐츠 -->
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 py-8">
+      <%= yield %>
+    </main>
+
+    <!-- 푸터 -->
+    <footer class="border-t border-pink-100 mt-16">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 py-8 text-center text-sm text-[#7A4868]">
+        <p class="font-serif text-base font-semibold text-[#C2527A] mb-2">북살롱</p>
+        <p>책 한 챕터로 내 방향을 찾는 4주 비대면 북코칭</p>
+        <p class="mt-4 text-xs text-[#7A4868]/60">© 2025 북살롱. All rights reserved.</p>
+      </div>
+    </footer>
   </body>
 </html>

@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  enrollment: one
+  daily_content: one
+  content: MyText
+  feedback_text: MyText
+  feedback_at: 2026-05-09 16:52:11
+  is_public: false
+
+two:
+  enrollment: two
+  daily_content: two
+  content: MyText
+  feedback_text: MyText
+  feedback_at: 2026-05-09 16:52:11
+  is_public: false

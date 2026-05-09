@@ -1,0 +1,56 @@
+<div class="max-w-md mx-auto px-4 py-12">
+  <h1 class="text-2xl font-bold mb-2"><%= @program.title %></h1>
+  <p class="text-gray-600 mb-8"><%= @program.description %></p>
+
+  <div class="bg-pink-50 rounded-2xl p-6 mb-6">
+    <div class="flex justify-between mb-2">
+      <span class="text-gray-700">프로그램 기간</span>
+      <span class="font-medium"><%= @program.duration_weeks %>주 과정</span>
+    </div>
+    <div class="flex justify-between">
+      <span class="text-gray-700">수강료</span>
+      <span class="text-2xl font-bold text-pink-700"><%= number_to_currency(@program.price, unit: '₩', delimiter: ',', precision: 0) %></span>
+    </div>
+  </div>
+
+  <button id="payment-button" class="w-full bg-pink-600 text-white py-4 rounded-xl font-bold text-lg">
+    지금 시작하기 — ₩<%= number_with_delimiter(@program.price) %>
+  </button>
+  <p class="text-xs text-center text-gray-400 mt-3">결제 후 즉시 첫 번째 코칭에 접속할 수 있습니다</p>
+
+  <p id="payment-error" class="hidden text-red-500 text-sm text-center mt-4"></p>
+</div>
+
+<script src="https://js.tosspayments.com/v1/payment"></script>
+<%= javascript_tag nonce: true do %>
+  document.addEventListener('DOMContentLoaded', function() {
+    var btn = document.getElementById('payment-button');
+    if (!btn) return;
+
+    var tossPayments = TossPayments('<%= ENV.fetch("TOSS_CLIENT_KEY") %>');
+
+    btn.addEventListener('click', function() {
+      btn.disabled = true;
+      btn.textContent = '결제창 여는 중...';
+
+      tossPayments.requestPayment('카드', {
+        amount: <%= @program.price %>,
+        orderId: '<%= @order_id %>',
+        orderName: '<%= j @program.title %>',
+        customerName: '<%= j(current_user.name || current_user.email) %>',
+        customerEmail: '<%= current_user.email %>',
+        successUrl: '<%= success_payments_url(cohort_id: @cohort.id) %>',
+        failUrl: '<%= fail_payments_url %>'
+      }).catch(function(e) {
+        btn.disabled = false;
+        btn.textContent = '지금 시작하기 — ₩<%= number_with_delimiter(@program.price) %>';
+        var errEl = document.getElementById('payment-error');
+        if (e.code !== 'USER_CANCEL') {
+          errEl.textContent = e.message || '결제창을 열지 못했습니다.';
+          errEl.classList.remove('hidden');
+        }
+        console.error('Toss error:', e);
+      });
+    });
+  });
+<% end %>

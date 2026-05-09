@@ -1,0 +1,242 @@
+<!-- Hero 섹션 -->
+<section class="text-center py-24 px-4">
+  <p class="text-sm font-medium text-[#C2527A] tracking-widest uppercase mb-4">4주 비대면 북코칭 프로그램</p>
+  <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-[#1F0D18] leading-tight mb-6">
+    어린이집 후 2시간,<br>
+    <span class="text-[#C2527A]">나를 찾는 시간</span>
+  </h1>
+  <p class="text-[#7A4868] text-lg sm:text-xl max-w-xl mx-auto mb-10 leading-relaxed">
+    아이를 보내고 돌아온 그 고요한 시간.<br>
+    책 한 챕터와 코치의 질문 하나로 내 방향을 발견합니다.
+  </p>
+  <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+    <% if user_signed_in? %>
+      <%= link_to dashboard_path,
+          class: 'inline-block bg-[#C2527A] hover:bg-[#8E3A6E] text-white px-10 py-4 rounded-xl font-bold text-base transition-colors shadow-[0_4px_24px_rgba(194,82,122,0.30)]' do %>
+        대시보드로 가기
+      <% end %>
+    <% else %>
+      <%= link_to new_user_session_path,
+          class: 'inline-block bg-[#C2527A] hover:bg-[#8E3A6E] text-white px-10 py-4 rounded-xl font-bold text-base transition-colors shadow-[0_4px_24px_rgba(194,82,122,0.30)]' do %>
+        4주 여정 들어가기
+      <% end %>
+    <% end %>
+  </div>
+  <p class="text-xs text-[#7A4868] mt-4">신용카드 없이 시작 · 언제든 문의 가능</p>
+</section>
+
+<!-- Problem 섹션 -->
+<section class="bg-[#F9F0F5] py-20 px-4">
+  <div class="max-w-4xl mx-auto">
+    <p class="text-center text-sm font-medium text-[#C2527A] tracking-widest uppercase mb-4">혹시 이런 적 있으신가요?</p>
+    <h2 class="font-serif text-3xl sm:text-4xl font-bold text-center text-[#1F0D18] mb-12">
+      자기 시간이 생겼는데,<br class="hidden sm:block"> 무엇을 해야 할지 모르겠는 그 느낌
+    </h2>
+    <div class="grid sm:grid-cols-3 gap-6">
+      <div class="bg-white rounded-2xl p-6 border border-pink-100">
+        <div class="text-3xl mb-4">😮‍💨</div>
+        <h3 class="font-semibold text-[#1F0D18] mb-2">시간이 생겨도 멍하다</h3>
+        <p class="text-sm text-[#7A4868] leading-relaxed">어린이집 버스를 보내고 돌아오면 뭘 해야 할지 모르겠어요. 유튜브를 켜다가, 잠깐 누웠다가, 시간이 사라집니다.</p>
+      </div>
+      <div class="bg-white rounded-2xl p-6 border border-pink-100">
+        <div class="text-3xl mb-4">📚</div>
+        <h3 class="font-semibold text-[#1F0D18] mb-2">책은 읽는데 내 삶이 안 바뀐다</h3>
+        <p class="text-sm text-[#7A4868] leading-relaxed">"좋은 책이었다"로 끝납니다. 다음 날이면 잊어버리고, 자극은 받았지만 아무것도 달라지지 않습니다.</p>
+      </div>
+      <div class="bg-white rounded-2xl p-6 border border-pink-100">
+        <div class="text-3xl mb-4">🧭</div>
+        <h3 class="font-semibold text-[#1F0D18] mb-2">방향은 모르겠고 불안하다</h3>
+        <p class="text-sm text-[#7A4868] leading-relaxed">복직할지, 다른 일을 찾을지, 지금 이대로도 괜찮은지. 머릿속에 질문만 가득한데 답이 안 보입니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Solution 섹션 -->
+<section class="py-20 px-4">
+  <div class="max-w-4xl mx-auto">
+    <p class="text-center text-sm font-medium text-[#C2527A] tracking-widest uppercase mb-4">북살롱의 방법</p>
+    <h2 class="font-serif text-3xl sm:text-4xl font-bold text-center text-[#1F0D18] mb-4">
+      28일, 하루 1챕터, 코치 1명
+    </h2>
+    <p class="text-center text-[#7A4868] text-lg mb-14">자극에서 끝나지 않고, 나의 방향이 되는 경험</p>
+
+    <!-- 4주 타임라인 -->
+    <div class="relative">
+      <div class="hidden sm:block absolute left-1/2 top-0 bottom-0 w-px bg-pink-100 -translate-x-1/2"></div>
+      <div class="space-y-8">
+        <div class="flex flex-col sm:flex-row gap-6 items-start sm:items-center">
+          <div class="sm:w-1/2 sm:text-right sm:pr-10">
+            <span class="inline-block bg-[#C2527A] text-white text-xs font-bold px-3 py-1 rounded-full mb-2">1주차</span>
+            <h3 class="font-serif font-bold text-[#1F0D18] text-lg">나를 멈추게 한 문장 찾기</h3>
+            <p class="text-sm text-[#7A4868] mt-1">책 속에서 내 심장이 반응하는 문장을 고릅니다.</p>
+          </div>
+          <div class="hidden sm:flex w-8 h-8 rounded-full bg-[#C2527A] flex-shrink-0 mx-auto items-center justify-center">
+            <span class="text-white text-xs font-bold">1</span>
+          </div>
+          <div class="sm:w-1/2 sm:pl-10"></div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-6 items-start sm:items-center">
+          <div class="sm:w-1/2 sm:pr-10"></div>
+          <div class="hidden sm:flex w-8 h-8 rounded-full bg-[#C2527A] flex-shrink-0 mx-auto items-center justify-center">
+            <span class="text-white text-xs font-bold">2</span>
+          </div>
+          <div class="sm:w-1/2 sm:pl-10">
+            <span class="inline-block bg-[#8E3A6E] text-white text-xs font-bold px-3 py-1 rounded-full mb-2">2주차</span>
+            <h3 class="font-serif font-bold text-[#1F0D18] text-lg">그 문장이 내 삶의 어디에 닿아 있는지</h3>
+            <p class="text-sm text-[#7A4868] mt-1">책의 언어와 내 현실의 접점을 발견합니다.</p>
+          </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-6 items-start sm:items-center">
+          <div class="sm:w-1/2 sm:text-right sm:pr-10">
+            <span class="inline-block bg-[#C2527A] text-white text-xs font-bold px-3 py-1 rounded-full mb-2">3주차</span>
+            <h3 class="font-serif font-bold text-[#1F0D18] text-lg">지금 내가 원하는 것 언어로 꺼내기</h3>
+            <p class="text-sm text-[#7A4868] mt-1">머릿속 막연한 것들을 코치와 함께 문장으로 만듭니다.</p>
+          </div>
+          <div class="hidden sm:flex w-8 h-8 rounded-full bg-[#C2527A] flex-shrink-0 mx-auto items-center justify-center">
+            <span class="text-white text-xs font-bold">3</span>
+          </div>
+          <div class="sm:w-1/2 sm:pl-10"></div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-6 items-start sm:items-center">
+          <div class="sm:w-1/2 sm:pr-10"></div>
+          <div class="hidden sm:flex w-8 h-8 rounded-full bg-[#C2527A] flex-shrink-0 mx-auto items-center justify-center">
+            <span class="text-white text-xs font-bold">4</span>
+          </div>
+          <div class="sm:w-1/2 sm:pl-10">
+            <span class="inline-block bg-[#8E3A6E] text-white text-xs font-bold px-3 py-1 rounded-full mb-2">4주차</span>
+            <h3 class="font-serif font-bold text-[#1F0D18] text-lg">다음 한 걸음 결정하기</h3>
+            <p class="text-sm text-[#7A4868] mt-1">4주간의 응답을 돌아보며 나만의 방향 한 줄을 씁니다.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features 섹션 -->
+<section class="bg-[#F9F0F5] py-20 px-4">
+  <div class="max-w-4xl mx-auto">
+    <p class="text-center text-sm font-medium text-[#C2527A] tracking-widest uppercase mb-4">이렇게 다릅니다</p>
+    <h2 class="font-serif text-3xl sm:text-4xl font-bold text-center text-[#1F0D18] mb-12">
+      혼자 읽는 독서와 다른 3가지
+    </h2>
+    <div class="grid sm:grid-cols-3 gap-6">
+      <div class="bg-white rounded-2xl shadow-[0_4px_24px_rgba(194,82,122,0.08)] p-6 border border-pink-50">
+        <div class="text-3xl mb-4">📖</div>
+        <h3 class="font-serif font-bold text-[#1F0D18] mb-2">챕터 한 개면 충분합니다</h3>
+        <p class="text-sm text-[#7A4868] leading-relaxed">하루 20~30분. 어린이집 등원 후 커피 한 잔과 함께. 긴 시간이 없어도 생각은 깊어집니다.</p>
+      </div>
+      <div class="bg-white rounded-2xl shadow-[0_4px_24px_rgba(194,82,122,0.08)] p-6 border border-pink-50">
+        <div class="text-3xl mb-4">💌</div>
+        <h3 class="font-serif font-bold text-[#1F0D18] mb-2">혼자 읽지 않아도 됩니다</h3>
+        <p class="text-sm text-[#7A4868] leading-relaxed">매일 코치가 질문을 보내고, 당신의 응답에 직접 피드백을 씁니다. 비동기지만 단절되지 않는 연결.</p>
+      </div>
+      <div class="bg-white rounded-2xl shadow-[0_4px_24px_rgba(194,82,122,0.08)] p-6 border border-pink-50">
+        <div class="text-3xl mb-4">✨</div>
+        <h3 class="font-serif font-bold text-[#1F0D18] mb-2">자극으로 끝나지 않는 독서</h3>
+        <p class="text-sm text-[#7A4868] leading-relaxed">28개의 질문이 책의 언어를 내 삶의 언어로 바꿔줍니다. '좋은 책이었다'로 끝나지 않도록.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 후기 섹션 -->
+<section class="py-20 px-4">
+  <div class="max-w-4xl mx-auto">
+    <p class="text-center text-sm font-medium text-[#C2527A] tracking-widest uppercase mb-4">함께한 분들의 이야기</p>
+    <h2 class="font-serif text-3xl sm:text-4xl font-bold text-center text-[#1F0D18] mb-12">
+      그들에게 무엇이 달라졌나요
+    </h2>
+    <div class="grid sm:grid-cols-3 gap-6">
+      <div class="bg-white rounded-2xl shadow-[0_4px_24px_rgba(194,82,122,0.10)] p-6 border border-pink-50">
+        <div class="text-[#C2527A] text-3xl font-serif mb-4">"</div>
+        <p class="text-sm text-[#1F0D18] leading-relaxed mb-6">처음엔 '책 읽을 시간이 있나' 싶었어요. 근데 막상 시작하니 어린이집 버스 보내고 바로 앉게 됐어요. 코치님 피드백이 3일째 되던 날 왔는데, 제가 쓴 글을 다시 보면서 울었어요. 내가 뭘 원하는지 말로 된 걸 처음 봤거든요.</p>
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-full bg-[#F4D0DC] flex items-center justify-center text-[#C2527A] font-bold text-sm">박</div>
+          <div>
+            <p class="text-sm font-semibold text-[#1F0D18]">박지연</p>
+            <p class="text-xs text-[#7A4868]">육아휴직 3년차</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-2xl shadow-[0_4px_24px_rgba(194,82,122,0.10)] p-6 border border-pink-50">
+        <div class="text-[#C2527A] text-3xl font-serif mb-4">"</div>
+        <p class="text-sm text-[#1F0D18] leading-relaxed mb-6">4주가 끝날 때쯤 '다시 일하고 싶다'에서 '어떤 일을 하고 싶다'로 바뀌었어요. 질문이 구체적이어서 막연하게 좋은 게 아니라 내 이야기로 연결됐어요. 28개 응답을 다시 읽는데 그게 내 자서전 같았어요.</p>
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-full bg-[#F4D0DC] flex items-center justify-center text-[#C2527A] font-bold text-sm">김</div>
+          <div>
+            <p class="text-sm font-semibold text-[#1F0D18]">김수현</p>
+            <p class="text-xs text-[#7A4868]">경력단절 5년, 복직 준비 중</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-2xl shadow-[0_4px_24px_rgba(194,82,122,0.10)] p-6 border border-pink-50">
+        <div class="text-[#C2527A] text-3xl font-serif mb-4">"</div>
+        <p class="text-sm text-[#1F0D18] leading-relaxed mb-6">혼자 책 읽으면 다음 날이면 잊어요. 근데 매일 코치한테 응답을 보내야 하니까 진짜 생각하게 되더라고요. 마지막 주에 '나 이걸 계속하고 싶다'는 걸 발견했어요. 그 한 문장이 지금 제 명함에 적혀 있어요.</p>
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-full bg-[#F4D0DC] flex items-center justify-center text-[#C2527A] font-bold text-sm">이</div>
+          <div>
+            <p class="text-sm font-semibold text-[#1F0D18]">이미경</p>
+            <p class="text-xs text-[#7A4868]">두 아이 엄마, 프리랜서 전환 후</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ 섹션 -->
+<section class="bg-[#F9F0F5] py-20 px-4">
+  <div class="max-w-2xl mx-auto">
+    <p class="text-center text-sm font-medium text-[#C2527A] tracking-widest uppercase mb-4">자주 묻는 질문</p>
+    <h2 class="font-serif text-3xl font-bold text-center text-[#1F0D18] mb-10">궁금한 것들</h2>
+    <div class="space-y-4">
+      <div class="bg-white rounded-2xl p-6 border border-pink-50">
+        <h3 class="font-semibold text-[#1F0D18] mb-2">육아 중이라 시간이 불규칙한데 참여할 수 있나요?</h3>
+        <p class="text-sm text-[#7A4868] leading-relaxed">네. 프로그램은 매일 정해진 시간에 접속하지 않아도 됩니다. 코칭 영상과 질문은 항상 열려 있고, 당신의 속도에 맞춰 응답하면 됩니다. 코치 피드백도 비동기로 전달되니 아이 낮잠 시간이든 자정이든 괜찮습니다.</p>
+      </div>
+      <div class="bg-white rounded-2xl p-6 border border-pink-50">
+        <h3 class="font-semibold text-[#1F0D18] mb-2">책을 미리 준비해야 하나요?</h3>
+        <p class="text-sm text-[#7A4868] leading-relaxed">아니요. 기수별로 함께 읽는 책 1권이 정해져 있고, 시작 3일 전에 안내받습니다. 전자책 또는 종이책 중 편한 방식으로 준비하시면 됩니다.</p>
+      </div>
+      <div class="bg-white rounded-2xl p-6 border border-pink-50">
+        <h3 class="font-semibold text-[#1F0D18] mb-2">코치가 응답을 꼭 읽나요?</h3>
+        <p class="text-sm text-[#7A4868] leading-relaxed">네, 코치가 직접 읽고 직접 씁니다. AI 자동 피드백 없습니다. 다만 피드백은 24~48시간 내 전달되며, 이메일로 알림이 옵니다.</p>
+      </div>
+      <div class="bg-white rounded-2xl p-6 border border-pink-50">
+        <h3 class="font-semibold text-[#1F0D18] mb-2">4주를 모두 채우지 못하면 환불이 되나요?</h3>
+        <p class="text-sm text-[#7A4868] leading-relaxed">시작 후 3일 이내, 응답을 제출하지 않은 경우 전액 환불됩니다. 이후에는 부분 환불 정책이 적용됩니다. 자세한 내용은 결제 전 약관을 확인해 주세요.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA 섹션 -->
+<section class="bg-gradient-to-br from-[#C2527A] to-[#8E3A6E] py-24 px-4 text-center">
+  <div class="max-w-xl mx-auto">
+    <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white mb-4">
+      오늘의 그 2시간을<br>나에게 쓰기로 결심했다면
+    </h2>
+    <p class="text-pink-100 text-lg mb-10 leading-relaxed">
+      다음 기수 모집 중입니다.<br>지금 신청하면 시작 3일 전 책 정보를 보내드립니다.
+    </p>
+    <% if user_signed_in? %>
+      <%= link_to dashboard_path,
+          class: 'inline-block bg-white text-[#C2527A] hover:bg-pink-50 px-12 py-4 rounded-xl font-bold text-lg transition-colors shadow-xl' do %>
+        대시보드로 가기
+      <% end %>
+    <% else %>
+      <%= link_to new_user_session_path,
+          class: 'inline-block bg-white text-[#C2527A] hover:bg-pink-50 px-12 py-4 rounded-xl font-bold text-lg transition-colors shadow-xl' do %>
+        4주 여정 들어가기
+      <% end %>
+    <% end %>
+    <p class="text-pink-200 text-sm mt-5">신용카드 없이 시작 · 언제든 문의 가능</p>
+  </div>
+</section>

@@ -1,0 +1,22 @@
+<div class="bg-white rounded-2xl shadow-[0_4px_24px_rgba(194,82,122,0.10)] p-6">
+  <p class="text-sm text-[#7A4868] mb-4">내 응답 남기기</p>
+  <%= form_with model: response,
+                url: daily_content_responses_path(content),
+                data: { turbo_frame: 'response_form' } do |f| %>
+    <div class="space-y-4">
+      <%= f.text_area :content,
+          placeholder: '오늘 이 질문이 내게 어떻게 닿았나요? 한 줄도, 단어 하나도 괜찮습니다.',
+          rows: 5,
+          required: true,
+          class: 'w-full border border-pink-200 rounded-xl p-4 text-sm text-[#1F0D18] placeholder-[#7A4868]/50 focus:outline-none focus:ring-2 focus:ring-[#C2527A]/30 focus:border-[#C2527A] resize-none transition-all' %>
+
+      <label class="flex items-center gap-2 text-sm text-[#7A4868] cursor-pointer">
+        <%= f.check_box :is_public, class: 'rounded text-[#C2527A]' %>
+        다른 참가자에게 공개
+      </label>
+
+      <%= f.submit '응답 제출하기',
+          class: 'w-full py-3 rounded-xl bg-[#C2527A] hover:bg-[#8E3A6E] text-white font-semibold text-sm transition-colors cursor-pointer' %>
+    </div>
+  <% end %>
+</div>

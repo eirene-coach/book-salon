@@ -1,0 +1,34 @@
+<!-- 미션 헤더 -->
+<div class="mb-6 flex items-center gap-3">
+  <%= link_to dashboard_path, class: 'text-[#7A4868] hover:text-[#C2527A] text-sm transition-colors' do %>
+    ← 대시보드
+  <% end %>
+  <span class="text-xs font-semibold text-[#C2527A] bg-pink-50 px-3 py-1 rounded-full">
+    Day <%= @content.day_number %>
+  </span>
+</div>
+
+<!-- 코칭 영상 -->
+<div class="bg-white rounded-2xl shadow-[0_4px_24px_rgba(194,82,122,0.10)] p-6 mb-6">
+  <h2 class="font-serif text-lg font-bold text-[#1F0D18] mb-4">코칭 영상</h2>
+  <div class="relative pb-[56.25%] h-0 overflow-hidden rounded-xl bg-pink-50">
+    <%= raw embed_video(@content.video_url) %>
+  </div>
+</div>
+
+<!-- 오늘의 질문 -->
+<div class="bg-[#FFF0F6] border border-pink-200 rounded-2xl p-6 mb-6">
+  <p class="text-xs font-semibold text-[#C2527A] mb-3">오늘의 질문</p>
+  <p class="font-serif text-xl font-bold text-[#1F0D18] leading-relaxed">
+    <%= @content.question_text %>
+  </p>
+</div>
+
+<!-- 응답 폼 (Turbo Frame) -->
+<%= turbo_frame_tag 'response_form' do %>
+  <% if @response.persisted? && @response.content.present? %>
+    <%= render 'responses/success', response: @response %>
+  <% else %>
+    <%= render 'responses/form', response: @response, content: @content %>
+  <% end %>
+<% end %>

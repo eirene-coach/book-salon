@@ -1,0 +1,56 @@
+<div class="max-w-5xl mx-auto px-4 py-8">
+  <div class="flex justify-between items-start mb-6">
+    <div>
+      <h1 class="text-2xl font-bold"><%= @cohort.program.title %></h1>
+      <p class="text-sm text-gray-500"><%= @cohort.start_date.strftime('%Y.%m.%d') %> 시작 · <%= @enrollments.count %>명</p>
+    </div>
+    <%= link_to '+ 콘텐츠 등록', new_admin_cohort_daily_content_path(@cohort), class: 'bg-pink-600 text-white px-4 py-2 rounded-lg text-sm' %>
+  </div>
+
+  <div class="mb-8">
+    <h2 class="font-bold mb-3">출석 현황</h2>
+    <table class="w-full text-sm border rounded-xl overflow-hidden">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="text-left p-3">수강생</th>
+          <th class="text-center p-3">제출 횟수</th>
+          <th class="text-center p-3">스트릭</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @attendance.each do |att| %>
+          <tr class="border-t">
+            <td class="p-3"><%= att[:user].name %></td>
+            <td class="text-center p-3"><%= att[:count] %>일</td>
+            <td class="text-center p-3"><%= att[:streak] %>일 연속 🔥</td>
+          </tr>
+        <% end %>
+        <% if @attendance.empty? %>
+          <tr><td colspan="3" class="text-center p-4 text-gray-400">수강생이 없습니다.</td></tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="font-bold mb-3">피드백 대기 중</h2>
+  <% unfeedback = Response.where(feedback_text: [nil, '']).joins(:enrollment).where(enrollments: { cohort: @cohort }).includes({ enrollment: :user }, :daily_content) %>
+  <div class="space-y-3">
+    <% unfeedback.each do |r| %>
+      <div class="bg-white border rounded-xl p-4">
+        <div class="flex justify-between mb-2">
+          <span class="font-medium text-sm"><%= r.enrollment.user.name %> · Day <%= r.daily_content.day_number %></span>
+          <span class="text-xs text-gray-400"><%= r.created_at.strftime('%m.%d %H:%M') %></span>
+        </div>
+        <p class="text-sm text-gray-700 mb-3"><%= r.content %></p>
+        <%= form_with url: admin_cohort_response_path(@cohort, r), method: :patch, class: 'flex gap-2' do |f| %>
+          <%= f.text_area :feedback_text, placeholder: '따뜻한 피드백을 작성해주세요...', rows: 2,
+              class: 'flex-1 border rounded-lg p-2 text-sm', name: 'response[feedback_text]' %>
+          <%= f.submit '전송', class: 'bg-pink-600 text-white px-4 rounded-lg text-sm cursor-pointer' %>
+        <% end %>
+      </div>
+    <% end %>
+    <% if unfeedback.empty? %>
+      <p class="text-center text-gray-400 py-8">🎉 모든 응답에 피드백을 완료했습니다!</p>
+    <% end %>
+  </div>
+</div>

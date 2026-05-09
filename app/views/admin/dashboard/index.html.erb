@@ -1,0 +1,37 @@
+<div class="max-w-5xl mx-auto px-4 py-8">
+  <h1 class="text-2xl font-bold mb-6">코치 관리 센터</h1>
+
+  <div class="grid grid-cols-3 gap-4 mb-8">
+    <div class="bg-white rounded-xl p-5 border">
+      <p class="text-sm text-gray-500">활성 기수</p>
+      <p class="text-3xl font-bold text-pink-700"><%= @active_cohorts.count %></p>
+    </div>
+    <div class="bg-white rounded-xl p-5 border">
+      <p class="text-sm text-gray-500">총 수강생</p>
+      <p class="text-3xl font-bold text-pink-700"><%= @total_members %></p>
+    </div>
+    <div class="bg-orange-50 rounded-xl p-5 border border-orange-200">
+      <p class="text-sm text-orange-600">미작성 피드백</p>
+      <p class="text-3xl font-bold text-orange-600"><%= @pending_feedbacks %></p>
+    </div>
+  </div>
+
+  <div class="flex justify-between items-center mb-3">
+    <h2 class="font-bold">기수 현황</h2>
+    <%= link_to '+ 새 기수 만들기', new_admin_cohort_path, class: 'text-sm bg-pink-600 text-white px-4 py-2 rounded-lg' %>
+  </div>
+
+  <div class="space-y-2">
+    <% @active_cohorts.each do |c| %>
+      <%= link_to admin_cohort_path(c), class: 'block bg-white border rounded-xl p-4 hover:border-pink-300' do %>
+        <div class="flex justify-between">
+          <span class="font-medium"><%= c.program.title %> - <%= c.start_date.strftime('%Y.%m.%d') %> 시작</span>
+          <span class="text-sm text-gray-500"><%= c.enrollments.where(payment_status: 'paid').count %>명 수강 중</span>
+        </div>
+      <% end %>
+    <% end %>
+    <% if @active_cohorts.empty? %>
+      <p class="text-center text-gray-400 py-8">활성 기수가 없습니다. 새 기수를 만들어보세요.</p>
+    <% end %>
+  </div>
+</div>

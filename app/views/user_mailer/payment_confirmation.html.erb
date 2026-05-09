@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<body style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background: #FDF8FC;">
+  <div style="background: #FFF0F6; border-radius: 16px; padding: 32px;">
+    <h2 style="color: #C2527A;">결제 완료! 🎉</h2>
+    <p>안녕하세요, <%= @user.name %>님!</p>
+    <p><strong><%= @program.title %></strong> 결제가 완료되었습니다.</p>
+    <p>시작일: <%= @cohort.start_date.strftime('%Y년 %m월 %d일') %></p>
+    <a href="<%= dashboard_url %>" style="display: inline-block; background: #C2527A; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; margin-top: 16px;">대시보드 바로가기</a>
+  </div>
+</body>
+</html>

@@ -1,0 +1,8 @@
+<div class="bg-white rounded-2xl shadow-[0_4px_24px_rgba(194,82,122,0.10)] p-8 text-center">
+  <div class="text-5xl mb-4">✓</div>
+  <p class="font-serif text-2xl font-bold text-[#C2527A] mb-2">오늘도 연결됐어요</p>
+  <p class="text-sm text-[#7A4868] mb-1">코치가 읽고 답장을 드립니다. 보통 24시간 안에 이메일로 알려드려요.</p>
+  <p class="text-xs text-[#7A4868]/60 mb-6"><%= response.created_at.strftime('%Y.%m.%d %H:%M') %>에 기록됨</p>
+  <%= link_to '대시보드로 돌아가기', dashboard_path,
+      class: 'inline-block text-sm text-[#C2527A] underline underline-offset-2 hover:text-[#8E3A6E] transition-colors' %>
+</div>

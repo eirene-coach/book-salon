@@ -1,0 +1,23 @@
+<div class="max-w-lg mx-auto px-4 py-8">
+  <h1 class="text-2xl font-bold mb-6">새 기수 만들기</h1>
+  <%= form_with model: [:admin, @cohort] do |f| %>
+    <div class="space-y-4">
+      <div>
+        <%= f.label :program_id, '프로그램', class: 'block text-sm font-medium mb-1' %>
+        <%= f.select :program_id, @programs.map { |p| [p.title, p.id] },
+            { include_blank: '선택하세요' },
+            class: 'w-full border rounded-lg p-2' %>
+      </div>
+      <div>
+        <%= f.label :start_date, '시작일', class: 'block text-sm font-medium mb-1' %>
+        <%= f.date_field :start_date, class: 'w-full border rounded-lg p-2' %>
+      </div>
+      <div>
+        <%= f.label :status, '상태', class: 'block text-sm font-medium mb-1' %>
+        <%= f.select :status, [['모집중', 'recruiting'], ['진행중', 'active'], ['종료', 'closed']],
+            {}, class: 'w-full border rounded-lg p-2' %>
+      </div>
+      <%= f.submit '기수 생성', class: 'w-full bg-pink-600 text-white py-3 rounded-lg font-semibold cursor-pointer' %>
+    </div>
+  <% end %>
+</div>

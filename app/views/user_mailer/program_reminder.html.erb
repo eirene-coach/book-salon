@@ -1,0 +1,8 @@
+<!DOCTYPE html>
+<html>
+<body style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+  <h2>안녕하세요, <%= @user.name %>님 📖</h2>
+  <p>오늘의 코칭 Day <%= @content.day_number %>가 아직 기다리고 있어요.</p>
+  <a href="<%= mission_url(@content) %>" style="display: inline-block; background: #C2527A; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none;">오늘의 미션 하러 가기</a>
+</body>
+</html>

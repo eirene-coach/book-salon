@@ -1,0 +1,11 @@
+안녕하세요, <%= @user.name %>님
+
+코치가 Day <%= @content.day_number %>의 응답에 피드백을 남겨주셨어요.
+
+[내 응답]
+<%= @response.content %>
+
+[코치 피드백]
+<%= @response.feedback_text %>
+
+여정 일지: <%= my_journey_url %>
