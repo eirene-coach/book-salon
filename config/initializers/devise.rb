@@ -280,7 +280,6 @@ Devise.setup do |config|
     ENV.fetch("GOOGLE_CLIENT_ID", "PLACEHOLDER"),
     ENV.fetch("GOOGLE_CLIENT_SECRET", "PLACEHOLDER")
 
-  require "omniauth/strategies/kakao"
   config.omniauth :kakao,
     ENV.fetch("KAKAO_CLIENT_ID", "PLACEHOLDER"),
     ENV.fetch("KAKAO_CLIENT_SECRET", "PLACEHOLDER"),
