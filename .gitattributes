@@ -7,3 +7,9 @@ db/schema.rb linguist-generated
 vendor/* linguist-vendored
 config/credentials/*.yml.enc diff=rails_credentials
 config/credentials.yml.enc diff=rails_credentials
+
+# Force LF line endings for scripts (needed for Linux deployment)
+bin/* eol=lf
+*.sh eol=lf
+Procfile eol=lf
+.mise.toml eol=lf
