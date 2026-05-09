@@ -1,0 +1,11 @@
+﻿[phases.setup]
+nixPkgs = ['ruby_3_3', 'nodejs', 'libyaml']
+
+[phases.install]
+cmds = ['bundle install --without development test']
+
+[phases.build]
+cmds = ['bundle exec rails assets:precompile']
+
+[start]
+cmd = 'bin/rails db:migrate && bin/rails server -p $PORT -e production'
