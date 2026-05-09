@@ -3,12 +3,17 @@
   <p class="text-sm font-medium text-[#C2527A] tracking-widest uppercase mb-4">4주 비대면 북코칭 프로그램</p>
   <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-[#1F0D18] leading-tight mb-6">
     어린이집 후 2시간,<br>
-    <span class="text-[#C2527A]">나를 찾는 시간</span>
+    <span class="text-[#C2527A]">미래의 나를 설계하는 시간</span>
   </h1>
-  <p class="text-[#7A4868] text-lg sm:text-xl max-w-xl mx-auto mb-10 leading-relaxed">
+  <p class="text-[#7A4868] text-lg sm:text-xl max-w-xl mx-auto mb-6 leading-relaxed">
     아이를 보내고 돌아온 그 고요한 시간.<br>
-    책 한 챕터와 코치의 질문 하나로 내 방향을 발견합니다.
+    벤저민 하디의 <em>퓨처셀프</em>와 코치의 질문 하나로<br>지금 내 삶의 의미와 활력을 발견합니다.
   </p>
+  <!-- 책 배지 -->
+  <div class="inline-flex items-center gap-2 bg-white border border-pink-200 rounded-full px-5 py-2 text-sm text-[#7A4868] shadow-sm mb-8">
+    <span class="text-base">📖</span>
+    <span>이번 기수 교재: <strong class="text-[#C2527A]">퓨처셀프</strong> — 벤저민 하디 저</span>
+  </div>
   <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
     <% if user_signed_in? %>
       <%= link_to dashboard_path,
@@ -30,23 +35,23 @@
   <div class="max-w-4xl mx-auto">
     <p class="text-center text-sm font-medium text-[#C2527A] tracking-widest uppercase mb-4">혹시 이런 적 있으신가요?</p>
     <h2 class="font-serif text-3xl sm:text-4xl font-bold text-center text-[#1F0D18] mb-12">
-      자기 시간이 생겼는데,<br class="hidden sm:block"> 무엇을 해야 할지 모르겠는 그 느낌
+      일을 쉬거나, 계속하거나,<br class="hidden sm:block"> 새로 찾으려 하는데 — 방향이 안 보인다
     </h2>
     <div class="grid sm:grid-cols-3 gap-6">
       <div class="bg-white rounded-2xl p-6 border border-pink-100">
         <div class="text-3xl mb-4">😮‍💨</div>
-        <h3 class="font-semibold text-[#1F0D18] mb-2">시간이 생겨도 멍하다</h3>
-        <p class="text-sm text-[#7A4868] leading-relaxed">어린이집 버스를 보내고 돌아오면 뭘 해야 할지 모르겠어요. 유튜브를 켜다가, 잠깐 누웠다가, 시간이 사라집니다.</p>
+        <h3 class="font-semibold text-[#1F0D18] mb-2">지금 이 삶이 맞는지 모르겠다</h3>
+        <p class="text-sm text-[#7A4868] leading-relaxed">아이를 키우면서 계속 이렇게 출근하는 게 맞나, 아니면 쉬어야 하나. 머릿속에 질문만 쌓이고 답이 없습니다.</p>
       </div>
       <div class="bg-white rounded-2xl p-6 border border-pink-100">
         <div class="text-3xl mb-4">📚</div>
         <h3 class="font-semibold text-[#1F0D18] mb-2">책은 읽는데 내 삶이 안 바뀐다</h3>
-        <p class="text-sm text-[#7A4868] leading-relaxed">"좋은 책이었다"로 끝납니다. 다음 날이면 잊어버리고, 자극은 받았지만 아무것도 달라지지 않습니다.</p>
+        <p class="text-sm text-[#7A4868] leading-relaxed">"좋은 책이었다"로 끝납니다. 자극은 받았지만 다음 날이면 잊어버리고, 아무것도 달라지지 않습니다.</p>
       </div>
       <div class="bg-white rounded-2xl p-6 border border-pink-100">
         <div class="text-3xl mb-4">🧭</div>
-        <h3 class="font-semibold text-[#1F0D18] mb-2">방향은 모르겠고 불안하다</h3>
-        <p class="text-sm text-[#7A4868] leading-relaxed">복직할지, 다른 일을 찾을지, 지금 이대로도 괜찮은지. 머릿속에 질문만 가득한데 답이 안 보입니다.</p>
+        <h3 class="font-semibold text-[#1F0D18] mb-2">미래의 나를 그릴 수가 없다</h3>
+        <p class="text-sm text-[#7A4868] leading-relaxed">복직할지, 다른 일을 찾을지, 지금 이대로도 괜찮은지. 미래를 설계하고 싶은데 어디서부터 시작해야 할지 모릅니다.</p>
       </div>
     </div>
   </div>
@@ -59,7 +64,17 @@
     <h2 class="font-serif text-3xl sm:text-4xl font-bold text-center text-[#1F0D18] mb-4">
       28일, 하루 1챕터, 코치 1명
     </h2>
-    <p class="text-center text-[#7A4868] text-lg mb-14">자극에서 끝나지 않고, 나의 방향이 되는 경험</p>
+    <p class="text-center text-[#7A4868] text-lg mb-6">자극에서 끝나지 않고, 나의 방향이 되는 경험</p>
+    <!-- 책 소개 카드 -->
+    <div class="bg-gradient-to-r from-[#FDF0F5] to-[#F9F0F5] border border-pink-100 rounded-2xl p-6 mb-14 flex gap-5 items-start">
+      <div class="text-4xl flex-shrink-0">📘</div>
+      <div>
+        <p class="text-xs font-medium text-[#C2527A] uppercase tracking-widest mb-1">이번 기수 함께 읽는 책</p>
+        <h3 class="font-serif text-xl font-bold text-[#1F0D18] mb-1">퓨처셀프 Future Self</h3>
+        <p class="text-sm text-[#7A4868] mb-2">벤저민 하디 지음</p>
+        <p class="text-sm text-[#7A4868] leading-relaxed">"미래의 내가 지금의 나를 이끈다." 28개의 코칭 질문과 함께 미래의 나를 설계하고, 지금 이 삶에서 의미와 활력을 되찾습니다.</p>
+      </div>
+    </div>
 
     <!-- 4주 타임라인 -->
     <div class="relative">
@@ -203,7 +218,7 @@
       </div>
       <div class="bg-white rounded-2xl p-6 border border-pink-50">
         <h3 class="font-semibold text-[#1F0D18] mb-2">책을 미리 준비해야 하나요?</h3>
-        <p class="text-sm text-[#7A4868] leading-relaxed">아니요. 기수별로 함께 읽는 책 1권이 정해져 있고, 시작 3일 전에 안내받습니다. 전자책 또는 종이책 중 편한 방식으로 준비하시면 됩니다.</p>
+        <p class="text-sm text-[#7A4868] leading-relaxed">이번 기수 교재는 벤저민 하디의 <strong class="text-[#C2527A]">『퓨처셀프』</strong>입니다. 시작 3일 전에 안내 메일이 발송됩니다. 전자책 또는 종이책 중 편한 방식으로 준비하시면 됩니다.</p>
       </div>
       <div class="bg-white rounded-2xl p-6 border border-pink-50">
         <h3 class="font-semibold text-[#1F0D18] mb-2">코치가 응답을 꼭 읽나요?</h3>
@@ -221,10 +236,10 @@
 <section class="bg-gradient-to-br from-[#C2527A] to-[#8E3A6E] py-24 px-4 text-center">
   <div class="max-w-xl mx-auto">
     <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white mb-4">
-      오늘의 그 2시간을<br>나에게 쓰기로 결심했다면
+      미래의 나를 설계할<br>그 2시간을 시작할 준비가 됐다면
     </h2>
     <p class="text-pink-100 text-lg mb-10 leading-relaxed">
-      다음 기수 모집 중입니다.<br>지금 신청하면 시작 3일 전 책 정보를 보내드립니다.
+      퓨처셀프와 함께하는 다음 기수 모집 중입니다.<br>지금 신청하면 시작 3일 전 교재 안내를 보내드립니다.
     </p>
     <% if user_signed_in? %>
       <%= link_to dashboard_path,
