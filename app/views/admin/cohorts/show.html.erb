@@ -4,7 +4,46 @@
       <h1 class="text-2xl font-bold"><%= @cohort.program.title %></h1>
       <p class="text-sm text-gray-500"><%= @cohort.start_date.strftime('%Y.%m.%d') %> 시작 · <%= @enrollments.count %>명</p>
     </div>
-    <%= link_to '+ 콘텐츠 등록', new_admin_cohort_daily_content_path(@cohort), class: 'bg-pink-600 text-white px-4 py-2 rounded-lg text-sm' %>
+    <%= link_to '← 어드민', admin_root_path, class: 'text-sm text-[#7A4868] hover:text-[#C2527A]' %>
+  </div>
+
+  <!-- 콘텐츠 현황 (Day 1~21) -->
+  <div class="mb-10">
+    <div class="flex items-center justify-between mb-3">
+      <h2 class="font-bold text-[#1F0D18]">콘텐츠 현황 <span class="text-sm font-normal text-[#7A4868]">(<%= @daily_contents.count %>/21일 등록됨)</span></h2>
+      <%= link_to '+ 콘텐츠 등록', new_admin_cohort_daily_content_path(@cohort),
+          class: 'text-sm bg-[#C2527A] text-white px-4 py-2 rounded-xl hover:bg-[#8E3A6E] transition-colors' %>
+    </div>
+
+    <% content_by_day = @daily_contents.index_by(&:day_number) %>
+    <div class="grid gap-2">
+      <% (1..21).each do |day| %>
+        <% content = content_by_day[day] %>
+        <div class="bg-white border <%= content ? 'border-pink-100' : 'border-dashed border-pink-200' %> rounded-xl px-4 py-3 flex items-center gap-4">
+          <span class="flex-shrink-0 w-12 h-8 flex items-center justify-center rounded-lg text-xs font-bold <%= content ? 'bg-[#C2527A] text-white' : 'bg-pink-50 text-[#C2527A]' %>">
+            Day <%= day %>
+          </span>
+          <% if content %>
+            <div class="flex-1 min-w-0">
+              <p class="text-sm text-[#1F0D18] font-medium truncate"><%= content.question_text.presence || '질문 없음' %></p>
+              <p class="text-xs text-[#7A4868]/60 truncate"><%= content.video_url %></p>
+            </div>
+            <div class="flex gap-2 flex-shrink-0">
+              <%= link_to '수정', edit_admin_cohort_daily_content_path(@cohort, content),
+                  class: 'text-xs text-[#7A4868] border border-pink-200 px-3 py-1.5 rounded-lg hover:bg-pink-50 transition-colors' %>
+              <%= button_to '삭제', admin_cohort_daily_content_path(@cohort, content),
+                  method: :delete,
+                  form: { data: { turbo_confirm: "Day #{day} 콘텐츠를 삭제할까요?" } },
+                  class: 'text-xs text-red-400 border border-red-100 px-3 py-1.5 rounded-lg hover:bg-red-50 transition-colors cursor-pointer bg-transparent' %>
+            </div>
+          <% else %>
+            <p class="flex-1 text-sm text-[#7A4868]/40">미등록</p>
+            <%= link_to '+ 등록', new_admin_cohort_daily_content_path(@cohort, daily_content: { day_number: day }),
+                class: 'flex-shrink-0 text-xs text-[#C2527A] border border-pink-200 px-3 py-1.5 rounded-lg hover:bg-pink-50 transition-colors' %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
   </div>
 
   <div class="mb-8">

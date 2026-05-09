@@ -34,7 +34,7 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :cohorts do
-      resources :daily_contents, only: [:new, :create]
+      resources :daily_contents, only: [:new, :create, :edit, :update, :destroy]
       resources :responses, only: [:update]
     end
     resources :programs
