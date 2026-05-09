@@ -193,7 +193,8 @@ Response ←→ DailyContent (N:1, 어떤 날의 질문인지)
 - **응답은 코치만 열람 가능** — `Response`는 enrollment를 통해 본인 + admin만 접근
 - **DailyContent는 day_number 기준** — 실제 날짜가 아닌 `cohort.start_date + day_number`로 오늘의 콘텐츠 결정. day_number는 1~21 (오리엔테이션 포함 21개 영상)
 - **결제 완료 전 콘텐츠 접근 차단** — `enrollment.payment_status == 'paid'` 확인 후 미션 페이지 허용
-- **영상은 임베드만** — 직접 영상 파일 업로드 없음, YouTube/Vimeo URL 저장 후 iframe 렌더링
+- **영상은 임베드만** — 직접 영상 파일 업로드 없음, YouTube URL 저장 후 iframe 렌더링
+- **유튜브 비공개(비열람) 업로드** — 21개 영상 플레이리스트: https://www.youtube.com/playlist?list=PLAz-z1TQIxobjBxHOJ6c5FKZEGj_LKN_f (코치 어드민에서 day_number별로 개별 영상 URL 입력)
 
 ## 디자인 제약
 
